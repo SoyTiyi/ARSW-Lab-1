@@ -2,6 +2,9 @@
 ### Escuela Colombiana de Ingeniería
 ### Arquitecturas de Software - ARSW
 ## Ejercicio Introducción al paralelismo - Hilos - Caso BlackListSearch
+## Integrantes
+	Nikolas Bernal Giraldo
+	Santiago Martínez Martínez
 
 
 ### Dependencias:
