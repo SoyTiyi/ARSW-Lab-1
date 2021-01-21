@@ -20,8 +20,12 @@
 	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
+	Start:
+	![start](./start().png)	
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
-
+	Run:
+	![run](./run().png)
+	La salida con start() comienza con el ultimo Thread ya que lo que hace esta metodo es crear un nuevo Thread para ejecutar el codigo dentro del metodo run, en el caso del run() lo que pasa es que muestra cada ejecucion en el orden en que se ejecuto ya que este no crea un nuevo Thread sino que con ese mismo ejecuta el codigo dentro del metodo run
 **Parte II - Ejercicio Black List Search**
 
 
