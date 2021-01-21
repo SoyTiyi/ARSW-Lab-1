@@ -27,6 +27,7 @@
 	![run](./img//run().png)
 
 	La salida con start() comienza con el ultimo Thread ya que lo que hace esta metodo es crear un nuevo Thread para ejecutar el codigo dentro del metodo run, en el caso del run() lo que pasa es que muestra cada ejecucion en el orden en que se ejecuto ya que este no crea un nuevo Thread sino que con ese mismo ejecuta el codigo dentro del metodo run
+
 **Parte II - Ejercicio Black List Search**
 
 
