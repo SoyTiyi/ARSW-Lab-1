@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import edu.eci.arsw.threads.BlackListThread;
 
 /**
  *
@@ -32,24 +33,35 @@ public class HostBlackListsValidator {
     public List<Integer> checkHost(String ipaddress, int numberThreads){
         
         LinkedList<Integer> blackListOcurrences=new LinkedList<>();
-        
         int ocurrencesCount=0;
         
         HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
         
         int checkedListsCount=0;
-        
-        for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
-            checkedListsCount++;
-            
-            if (skds.isInBlackListServer(i, ipaddress)){
-                
-                blackListOcurrences.add(i);
-                
-                ocurrencesCount++;
-            }
-        }
-        
+   	LinkedList<BlackListThread> threads = new LinkedList<>();
+	int fraction = (skds.getRegisteredServersCount() / numberThreads);
+
+	for(int i=0; i<numberThreads; i++){
+		int firstServer = fraction*i;
+		int lastServer = fraction*(i+1);
+		threads.add(new BlackListThread(ipaddress,ocurrencesCount,checkedListsCount, BLACK_LIST_ALARM_COUNT,firstServer,lastServer,skds));
+	}
+
+	/*Probando funciones lambda porque dicen que son chidas :v*/	
+	threads.forEach((thread) -> thread.start());
+
+	for(BlackListThread thread: threads){
+		try{
+			thread.join();
+			ocurrencesCount += thread.getOcurrencesCount();
+			/*Preguntar porque solo se puede con variables finales*/
+			thread.getServers().forEach((server) -> blackListOcurrences.add(server));
+
+		} catch(Exception e){
+			System.out.println("F");
+		}
+	}
+
         if (ocurrencesCount>=BLACK_LIST_ALARM_COUNT){
             skds.reportAsNotTrustworthy(ipaddress);
         }

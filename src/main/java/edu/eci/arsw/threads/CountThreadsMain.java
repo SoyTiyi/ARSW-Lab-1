@@ -20,11 +20,11 @@ public class CountThreadsMain {
 
 	/*countThreadOne.start();
 	countThreadTwo.start();
+	countThreadThree.start();
        	countThreadThree.start();*/
-
-	countThreadOne.run();
+       	countThreadThree.run();
 	countThreadTwo.run();
-	countThreadThree.run();
+	countThreadTwo.run();
     }
     
 }
