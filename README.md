@@ -72,7 +72,7 @@ Para 'refactorizar' este código, y hacer que explote la capacidad multi-núcleo
 
 	* Host 212.24.24.55:
 
-	![](./img/secodIP.png)
+	![](./img/secondIP.png)
 
 
 **Parte II.I Para discutir la próxima clase (NO para implementar aún)**
