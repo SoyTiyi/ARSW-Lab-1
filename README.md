@@ -79,15 +79,31 @@ Para 'refactorizar' este código, y hacer que explote la capacidad multi-núcleo
 
 La estrategia de paralelismo antes implementada es ineficiente en ciertos casos, pues la búsqueda se sigue realizando aún cuando los N hilos (en su conjunto) ya hayan encontrado el número mínimo de ocurrencias requeridas para reportar al servidor como malicioso. Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?, qué elemento nuevo traería esto al problema?
 
+	* Para resolver este problema, nosotros implementaríamos un contador, por el cual, cada vez que se encuentre en la lista de servidores se le sume uno a ese contador, esto traería varios problemas, ya que la integridad de este método depende del estado anterior y es posible que dos o mas threads traten de hacer uso de este método al mismo tiempo, lo que generaría que cada uno sumara uno, pero teniendo en cuenta el estado anterior, para solucionar esto, implementaríamos un bloqueo o utilizaríamos la funcionalidad que nos otorga java, la cual es synchronized.
+
 **Parte III - Evaluación de Desempeño**
 
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
 
 1. Un solo hilo.
+
+	![](./img/UnThread.png)
+
 2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
+
+	![](./img/CuatroThreads.png)
+
 3. Tantos hilos como el doble de núcleos de procesamiento.
+
+	![](./img/OchoThreads.png)
+
 4. 50 hilos.
+
+	![](./img/CicuentaThreads.png)
+
 5. 100 hilos.
+
+	![](./img/CienThreads.png)
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
