@@ -109,15 +109,21 @@ Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las p
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
-
+	![](img/Grafica.png)
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
 	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
 
+	Si vemos el comportamiento en el momento de realizar las pruebas con threads, no dimos cuenta que la diferencia entre el tiempo en ejecutar el programa con 200 threads o con 500 threads no es mucha, y podemos ver que al momento de tener 500 threads las aplicaciones de nuestra maquina tienen peor rendimiento. Entonces, en este caso no nos benefició tener mas threads en ejecución. 
+
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
 
+	En el momento de utilizar tanto numero de threads como procesadores en nuestra maquina vemos que la diferencia de tiempoes es casi el doble, ya que con 4 threads corriendo el tiempo fue de 24 segundo y con 8 threads corriendo el tiempo se reduce a 14 segundo. 
+
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+
+	Si tenemos en cuenta la ley, podriamos deducir que nuestro programa se ejecutará y alcanzará su objetivo en un menor tiempo teniendo 100 threads, en el caso de las 100 maquinas, si tenemos en cuenta que tenemos que realizar el reconteo de cada maquina podriamos decir que esto nos llevaria mas tiempo. 
 
 
 
