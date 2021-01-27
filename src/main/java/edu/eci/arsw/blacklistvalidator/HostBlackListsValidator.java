@@ -53,7 +53,8 @@ public class HostBlackListsValidator {
 	for(BlackListThread thread: threads){
 		try{
 			thread.join();
-			ocurrencesCount += thread.getOcurrencesCount();
+            ocurrencesCount += thread.getOcurrencesCount();
+            checkedListsCount += thread.getCheckedListCount();
 			/*Preguntar porque solo se puede con variables finales*/
 			thread.getServers().forEach((server) -> blackListOcurrences.add(server));
 
