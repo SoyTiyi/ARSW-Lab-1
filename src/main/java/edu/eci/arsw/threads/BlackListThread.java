@@ -1,41 +1,42 @@
 package edu.eci.arsw.threads;
 
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
-
 public class BlackListThread extends Thread {
 	private String ipadress;
-	private int ocurrencesCount;
-	private int checkedListCount;
+	private AtomicInteger ocurrencesCount;
+	private AtomicInteger checkedListCount;
 	private int alarmCount;
 	private int firstServer;
 	private int lastServer;
 	private HostBlacklistsDataSourceFacade skds;
+	private boolean stop;
 
 	/*
 	 * This LinkedList have the servers number when the ipaddres appers
-	 * */
+	 */
 	private LinkedList<Integer> servers = new LinkedList<>();
 
 	public LinkedList<Integer> getServers() {
 		return servers;
 	}
 
-	public void setServers(LinkedList<Integer> servers){
+	public void setServers(LinkedList<Integer> servers) {
 		this.servers = servers;
 	}
 
-	public int getOcurrencesCount(){
+	public AtomicInteger getOcurrencesCount() {
 		return ocurrencesCount;
 	}
 
-	public void setOcurrencesCount(int ocurrencesCount){
+	public void setOcurrencesCount(AtomicInteger ocurrencesCount) {
 		this.ocurrencesCount = ocurrencesCount;
 	}
 
-	public int getCheckedListCount(){
+	public AtomicInteger getCheckedListCount() {
 		return checkedListCount;
 	}
 
@@ -43,7 +44,8 @@ public class BlackListThread extends Thread {
 
 	}
 
-	public BlackListThread(String ipadress,int ocurrencesCount,int checkedListCount,int alarmCount,int firstServer,int lastServer, HostBlacklistsDataSourceFacade skds) {
+	public BlackListThread(String ipadress, AtomicInteger ocurrencesCount, AtomicInteger checkedListCount,
+			int alarmCount, int firstServer, int lastServer, HostBlacklistsDataSourceFacade skds) {
 		this.ipadress = ipadress;
 		this.ocurrencesCount = ocurrencesCount;
 		this.checkedListCount = checkedListCount;
@@ -53,15 +55,13 @@ public class BlackListThread extends Thread {
 		this.skds = skds;
 	}
 
-	public void run(){
-		for(int i=firstServer; i<lastServer && ocurrencesCount < alarmCount ; i++){
-			if(skds.isInBlackListServer(i, ipadress)){
+	public void run() {
+		for (int i = firstServer; i < lastServer && ocurrencesCount.get() < alarmCount; i++) {
+			checkedListCount.incrementAndGet();
+			if (skds.isInBlackListServer(i, ipadress)) {
 				servers.add(i);
-				ocurrencesCount++;
+				ocurrencesCount.incrementAndGet();	
 			}
-			else{
-				checkedListCount++;
-			}
-		}		
+		}
 	}
 }
